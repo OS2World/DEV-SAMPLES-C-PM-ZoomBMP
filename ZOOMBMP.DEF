@@ -1,0 +1,10 @@
+;=========================================================================;
+; ZoomBMP.DEF module definition file                                      ;
+;=========================================================================;
+
+NAME           ZoomBMP   WINDOWAPI
+
+DESCRIPTION    'Simple PM Demostration App'
+PROTMODE
+HEAPSIZE       1024
+STACKSIZE      8192
