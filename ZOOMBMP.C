@@ -74,9 +74,9 @@ ULONG   ulBitmapCY ;
 ULONG   ulSourceScaleFactor = 1 ;
 ULONG   ulTargetScaleFactor = 1 ;
 
-PSZ    szClassName  = "ZoomBMPClass" ;
-PSZ    szMainTitle  = "ZoomBMP" ;
-PSZ    szErrorTitle = "ZoomBMP Error" ;
+PSZ		szClassName  = (PSZ) "ZoomBMPClass" ;
+PSZ    szMainTitle  = (PSZ) "ZoomBMP" ;
+PSZ    szErrorTitle = (PSZ) "ZoomBMP Error" ;
 
         /* ----------------  Prototypes  ------------------------ */
 MRESULT EXPENTRY MainWindowProc( HWND, USHORT, MPARAM, MPARAM );
@@ -94,17 +94,17 @@ VOID             ShowErrorWindow( PSZ, BOOL );
 /*                                                                        */
 /* ********************************************************************** */
 
-VOID main()
+int main()
 {
 
   if ( (hab = WinInitialize( 0L )) == (HAB) NULL ){
      printf( "ZoomBMP Error:  WinInitialize failed \n" );
-     return;
+     return 0;
   }
   else {
      if ( (hmq = WinCreateMsgQueue( hab, 0 )) == (HMQ) NULL ){
         printf( "ZoomBMP Error:  WinCreateMsgQueue failed \n" );
-        return;
+        return 0;
      }
      else {
 
@@ -120,13 +120,13 @@ VOID main()
                                        0L,
                                        (PULONG)&fulCreate,
                                        szClassName ,
-                                       "",
+                                       (PSZ) "",
                                        0L,
                                        (HMODULE)NULL,
                                        ID_MAIN_WIN,
                                        &hwndClient);
         if ( hwndFrame == NULLHANDLE ) {
-           ShowErrorWindow( "Error creating Main window !", TRUE );
+           ShowErrorWindow( (PSZ) "Error creating Main window !", TRUE );
         }
         else {
            PID     pid ;
@@ -150,7 +150,7 @@ VOID main()
            swCntrl.idSession = (LONG) NULL ;
            swCntrl.uchVisibility = SWL_VISIBLE ;
            swCntrl.fbJump = SWL_JUMPABLE ;
-           sprintf( swCntrl.szSwtitle, szMainTitle );
+           sprintf( swCntrl.szSwtitle, (const char *) szMainTitle );
            hSwitch = WinCreateSwitchEntry( hab, (PSWCNTRL)&swCntrl);
 
 
@@ -228,7 +228,7 @@ MainWindowProc( HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2 )
            /* ------ adjust title bar size indicator  ----------- */
         SetTitlePercentageIndicator( ulPercentScale );
            /* ------------- trigger window repaint -------------- */
-        WinInvalidateRect( hwnd, (PRECTL)NULL, FALSE );  
+        WinInvalidateRect( hwnd, (PRECTL)NULL, FALSE );
         }
         break;
 
@@ -252,7 +252,7 @@ MainWindowProc( HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2 )
            /* ------ adjust title bar size indicator  ----------- */
         SetTitlePercentageIndicator( ulPercentScale );
            /* ------------- trigger window repaint -------------- */
-        WinInvalidateRect( hwnd, (PRECTL)NULL, FALSE );  
+        WinInvalidateRect( hwnd, (PRECTL)NULL, FALSE );
         }
         break;
 
@@ -424,8 +424,8 @@ SetTitlePercentageIndicator( ULONG ulPercent )
 {
   CHAR  acString[64];
 
-  sprintf( acString, " %s - %d%%", szMainTitle, ulPercent );
-  WinSetWindowText( hwndFrame, acString );
+  sprintf( acString, " %s - %ld%%", szMainTitle, ulPercent );
+  WinSetWindowText( hwndFrame, (PCSZ) acString );
 
 }  // end of SetTitlePercentageIndicator()
 /* ********************************************************************** */
@@ -456,5 +456,3 @@ ShowErrorWindow( PSZ  pszErrorMsg, BOOL bUseLastError )
                  MB_CUACRITICAL | MB_OK );
 
 }
-
-

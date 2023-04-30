@@ -7,11 +7,12 @@ LICENSE
 
 COMPILE TOOLS
 ===============
-* 
+* yum install git gcc make libc-devel binutils watcom-wrc watcom-wlink-hll
  
 AUTHORS
 ===============
-* IBM
+* Martin Iturbide (2023)
+* John Webb / IBM
 
 LINKS
 ===============
