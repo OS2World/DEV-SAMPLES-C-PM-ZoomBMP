@@ -1,7 +1,7 @@
 # DEV-SAMPLES-C-ZoomBMP
 This quick and dirty sample demostrates one method for displaying, zooming in, and zooming out of a bitmap. Clicking in the window with the left mouse button causes a zoom in. Clicking in the window with the right mouse button causes a zoom out.
 
-![ZoomBMP ScreenShot](https://github.com/OS2World/DEV-SAMPLES-C-PM-ZoomBMP/blob/master/wiki/ZoomBMP_002.png)
+![ZoomBMP ScreenShot](/wiki/ZoomBMP_002.png)
 
 LICENSE
 ===============
