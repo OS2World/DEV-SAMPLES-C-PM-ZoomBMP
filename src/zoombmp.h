@@ -1,13 +1,9 @@
 /* ********************************************************************** */
 /*                                                                        */
-/*    ZoomBMP.RC                                                          */
+/*    zoombmp.h                                                           */
 /*                                                                        */
 /* ********************************************************************** */
 
-#include <os2.h>
-#include "ZoomBMP.h"
+#define  ID_MAIN_WIN     10
 
-
-ICON    ID_MAIN_WIN   ZoomBMP.ico
-
-BITMAP  ID_BMP        mandy.bmp
+#define  ID_BMP          200

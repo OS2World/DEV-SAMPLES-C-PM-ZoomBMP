@@ -1,0 +1,90 @@
+Name:           ZoomBMP
+Description:    Bitmap zoom sample in PM
+Date:           2026-09-07
+Version:        1.02
+----------------------------
+
+DESCRIPTION
+-----------
+This is a PM sample application that demonstrates zooming in and out of a
+bitmap using GpiWCBitBlt with calculated source and target rectangles.
+
+Left mouse button click  -- zoom in  (doubles magnification)
+Right mouse button click -- zoom out (halves magnification)
+
+The title bar displays the current zoom percentage.
+
+Originally by John Webb / IBM Corp, 1993.
+
+
+REQUIREMENTS
+------------
+- yum install git gcc make libc-devel binutils watcom-wrc watcom-wlink-hll watcom-wcc
+
+
+COMPILE INSTRUCTIONS
+--------------------
+The source code is in the src/ directory. Two toolchains are supported.
+
+GCC / kLIBC:
+1) Ensure the EMXOMFLD variables are set (compile_gcc.cmd handles this):
+     SET EMXOMFLD_LINKER=wl.exe
+     SET EMXOMFLD_TYPE=WLINK
+     SET EMXOMFLD_PRELINK=0
+2) Run compile_gcc.cmd
+   Output: bin-gcc\zoombmp.exe
+   Log:    make_gcc.out
+
+OpenWatcom:
+1) Ensure the Watcom headers and libraries are in INCLUDE and LIB
+   (compile_wat.cmd sets these from C:\watcom).
+2) Run compile_wat.cmd
+   Output: bin-wat\zoombmp.exe
+   Log:    make_wat.out
+
+
+TOOLS USED
+----------
+- ArcaOS        - Version 5.0.7
+- wrc           - Open Watcom 2.0.1
+- wlink         - Open Watcom 2.0.1
+- gcc           - GCC 9.2.0 (OS/2 RPM build 9.2.0-5.oc00)
+- make          - Version 3.81 k2 (2017-11-10)
+- wmake         - Open Watcom 2.0.1
+
+
+TROUBLESHOOT
+------------
+If the build fails, check the log file (make_gcc.out or make_wat.out) for
+details. The compile_*.cmd scripts run a clean step before building to ensure
+stale object files do not hide errors.
+
+
+HISTORY
+----------
+- 1.02 - 2026-09-07
+  Sources moved to src/ directory.
+  Dual GCC and OpenWatcom build support added (makefile.gcc, makefile.wat,
+  compile_gcc.cmd, compile_wat.cmd).
+  Fixed USHORT msg to ULONG msg in MainWindowProc (32-bit PM PFNWP signature).
+  Fixed PCSZ cast to PSZ in WinSetWindowText for Watcom compatibility.
+  Fixed return(FALSE) to return (MRESULT) FALSE in MainWindowProc.
+  Added return 0 at end of main().
+  Screenshot moved to img/.
+
+- 1.01 - 2023-04-28
+  Changed to compile on gcc and to run on ArcaOS 5.0.7.
+
+- 1.0
+  Original version by John Webb / IBM Corp, 1993.
+
+
+LICENSE
+-------
+The 3-Clause BSD License.
+
+
+AUTHORS
+-------
+- John Webb / IBM Corp (original, 1993)
+- Martin Iturbide (2023, 2026)

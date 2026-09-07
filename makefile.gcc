@@ -1,0 +1,28 @@
+# makefile.gcc - GNU make / GCC build for DEV-SAMPLES-C-PM-ZoomBMP
+#
+# Tools used:
+#   Compile: gcc (GCC 9.2.0, OS/2 kLIBC)
+#   Link:    wlink via emxomfld
+#   Resource: wrc
+#   Make:    GNU make
+
+SRC = src
+BIN = bin-gcc
+
+all : $(BIN)/zoombmp.exe
+
+$(BIN)/zoombmp.exe : $(BIN)/zoombmp.obj $(SRC)/zoombmp.def $(BIN)/zoombmp.res
+	gcc -Zomf $(BIN)/zoombmp.obj $(SRC)/zoombmp.def -o $(BIN)/zoombmp.exe
+	wrc -q $(BIN)/zoombmp.res $(BIN)/zoombmp.exe
+
+$(BIN)/zoombmp.obj : $(SRC)/zoombmp.c $(SRC)/zoombmp.h | $(BIN)
+	gcc -Wall -Zomf -c -O2 -I$(SRC) $(SRC)/zoombmp.c -o $(BIN)/zoombmp.obj
+
+$(BIN)/zoombmp.res : $(SRC)/zoombmp.rc $(SRC)/zoombmp.h $(SRC)/zoombmp.ico $(SRC)/mandy.bmp | $(BIN)
+	wrc -r -I$(SRC) $(SRC)/zoombmp.rc -fo=$(BIN)/zoombmp.res
+
+$(BIN) :
+	if not exist $(BIN) md $(BIN)
+
+clean :
+	rm -f $(BIN)/*.obj $(BIN)/*.res $(BIN)/*.exe $(BIN)/*.map

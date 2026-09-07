@@ -1,9 +1,9 @@
 ;=========================================================================;
-; ZoomBMP.DEF module definition file                                      ;
+; zoombmp.def  module definition file                                    ;
 ;=========================================================================;
 
 NAME           ZoomBMP   WINDOWAPI
 
-DESCRIPTION     '@#OS2World:1.01#@##1## 30 Apr 2023 20:00:00     ARCAOS-507::::::v1.01@@Zoom BMP PM test'
+DESCRIPTION     '@#OS2World:1.02#@##1## 07 Sep 2026 00:00:00     ARCAOS-507::::::v1.02@@Zoom BMP PM test'
 HEAPSIZE       1024
 STACKSIZE      8192

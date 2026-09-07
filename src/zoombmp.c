@@ -14,9 +14,6 @@
 /*   development). It is meant more to demonstrate ideas rather than      */
 /*   actual code implementation.                                          */
 /*                                                                        */
-/*   My apologies if the original choice for display bitmap offends       */
-/*   anyone, as that was never the intention.                             */
-/*                                                                        */
 /*    Standard legalities:                                                */
 /*    DISCLAIMER OF WARRANTIES.  The following [enclosed] code is         */
 /*    sample code created by IBM Corporation. This sample code is not     */
@@ -37,7 +34,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ZoomBMP.h"
+#include "zoombmp.h"
 
       /* ------ defines for bit blit points array indices ------ */
 #define  TGT_BL  0      //  lower-left corner of target rect
@@ -74,12 +71,12 @@ ULONG   ulBitmapCY ;
 ULONG   ulSourceScaleFactor = 1 ;
 ULONG   ulTargetScaleFactor = 1 ;
 
-PSZ		szClassName  = (PSZ) "ZoomBMPClass" ;
-PSZ    szMainTitle  = (PSZ) "ZoomBMP" ;
-PSZ    szErrorTitle = (PSZ) "ZoomBMP Error" ;
+PSZ     szClassName  = (PSZ) "ZoomBMPClass" ;
+PSZ     szMainTitle  = (PSZ) "ZoomBMP" ;
+PSZ     szErrorTitle = (PSZ) "ZoomBMP Error" ;
 
         /* ----------------  Prototypes  ------------------------ */
-MRESULT EXPENTRY MainWindowProc( HWND, USHORT, MPARAM, MPARAM );
+MRESULT EXPENTRY MainWindowProc( HWND, ULONG, MPARAM, MPARAM );
 VOID             CalcTransformedPoints( HWND, PPOINTL );
 VOID             SetTitlePercentageIndicator( ULONG );
 VOID             ShowErrorWindow( PSZ, BOOL );
@@ -173,6 +170,8 @@ int main()
 
    WinTerminate(hab);
    }  /* end of else (...WinInitialize(NULL) */
+
+   return 0;
 }  /*  end of main() */
 
 /* ********************************************************************** */
@@ -182,7 +181,7 @@ int main()
 /* ********************************************************************** */
 
 MRESULT EXPENTRY
-MainWindowProc( HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2 )
+MainWindowProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
 {
 
   switch (msg) {
@@ -300,7 +299,7 @@ MainWindowProc( HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2 )
       return WinDefWindowProc(hwnd,msg,mp1,mp2);
 
   } /*  end of switch () */
-  return( FALSE );
+  return (MRESULT) FALSE;
 
 } /*  end of MainWindowProc */
 /* ********************************************************************** */
@@ -350,26 +349,6 @@ CalcTransformedPoints( HWND hwndTarget, PPOINTL aptlPoints )
   aptlPoints[TGT_TR].y = aptlPoints[SRC_TR].y = rectl.yTop ;
 
       /* -----------  apply source scaling  ----------------- */
-      /*
-       *  The trick for good performance is to make sure we are only
-       *  manipulating the smallest number of points necessary (i.e.
-       *  only those that will fit with in the window rect). The Source
-       *  Scaling Factor is used for zooming IN. However, we are going
-       *  to use the factor to reduce the source rectangle rather than
-       *  enlarge the target. For example, assume our Source Scaling
-       *  factor is 2. We want to see everything twice as large as it
-       *  was; however, given the same window size, we will only be
-       *  seeing half the number of original bitmap points. Therefore,
-       *  instead of multipling the target rectangle by the source factor
-       *  to create a target twice as large (of which half the points won't
-       *  be seen), we will divide the source rectangle by the source factor
-       *  to create a source that is half as big and will be stretched to
-       *  fit the window doubling it's size in the process. This way we only
-       *  manipulate the minimum number of points necessary.
-       *
-       *  Note: we are making an assumtion that Source bottom left (SRC_BL)
-       *      is at 0,0 and Source top right (SRC_TR) is equal to source size
-       */
   aptlPoints[SRC_TR].x /= ulSourceScaleFactor ;
   aptlPoints[SRC_TR].y /= ulSourceScaleFactor ;
 
@@ -378,11 +357,6 @@ CalcTransformedPoints( HWND hwndTarget, PPOINTL aptlPoints )
   ptlSourceCenter.y = (aptlPoints[SRC_TR].y - aptlPoints[SRC_BL].y) / 2 ;
 
       /* -----------  center Bitmap in Source rect --------------- */
-      /*
-       *  We want to "slide" the source rect around (without changing
-       *  it's size!) to get the center of the actual bitmap aligned with
-       *  the center of the source rectangle
-       */
   ptlBmpCenter.x = ulBitmapCX / 2 ;
   ptlBmpCenter.y = ulBitmapCY / 2 ;
   aptlPoints[SRC_BL].x += ptlBmpCenter.x - ptlSourceCenter.x ;
@@ -391,20 +365,10 @@ CalcTransformedPoints( HWND hwndTarget, PPOINTL aptlPoints )
   aptlPoints[SRC_TR].y += ptlBmpCenter.y - ptlSourceCenter.y ;
 
       /* --------- apply target scaling  ---------- */
-      /*
-       *  See description above about source scaling. Target scaling
-       *  is done to "zoom out". The target rect is divided by the
-       *  scaling factor to decrease the size and cause the original
-       *  bitmap to be compressed into the rect.
-       */
   aptlPoints[TGT_TR].x /= ulTargetScaleFactor ;
   aptlPoints[TGT_TR].y /= ulTargetScaleFactor ;
 
       /* --------- adjust target so always centered --------- */
-      /*
-       *  Slide Target rectangle so that it is centered in
-       *  the window rectangle
-       */
   ptlTargetCenter.x = (aptlPoints[TGT_TR].x - aptlPoints[TGT_BL].x) / 2 ;
   ptlTargetCenter.y = (aptlPoints[TGT_TR].y - aptlPoints[TGT_BL].y) / 2 ;
 
@@ -425,7 +389,7 @@ SetTitlePercentageIndicator( ULONG ulPercent )
   CHAR  acString[64];
 
   sprintf( acString, " %s - %ld%%", szMainTitle, ulPercent );
-  WinSetWindowText( hwndFrame, (PCSZ) acString );
+  WinSetWindowText( hwndFrame, (PSZ) acString );
 
 }  // end of SetTitlePercentageIndicator()
 /* ********************************************************************** */
