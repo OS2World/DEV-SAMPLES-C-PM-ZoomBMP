@@ -2,7 +2,7 @@
 
 Sample PM program demonstrating bitmap zoom using GpiWCBitBlt.
 
-![ZoomBMP ScreenShot](img/ZoomBMP_002.png)
+![ZoomBMP ScreenShot](doc/ZoomBMP_002.png)
 
 Left-click to zoom in, right-click to zoom out. The title bar shows the
 current zoom percentage.
